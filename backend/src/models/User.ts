@@ -1,5 +1,6 @@
-import mongoose, { Document, Schema, CallbackWithoutResultAndOptionalError } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
+import { HydratedDocument } from "mongoose";
 
 export interface IUser extends Document {
   name: string;
@@ -21,7 +22,7 @@ const userSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-userSchema.pre("save", async function (next: CallbackWithoutResultAndOptionalError) {
+userSchema.pre<HydratedDocument<IUser>>("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
