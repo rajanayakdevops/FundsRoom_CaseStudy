@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
-import { Customer } from "../../types";
+import type { Customer } from "../../types";
 import { useAuth } from "../../context/AuthContext";
 import "./Customers.css";
 
@@ -32,7 +32,6 @@ const CustomerList = () => {
       setCustomers(res.data.customers);
       setTotal(res.data.total);
     } catch {
-      // fail silently
     } finally {
       setLoading(false);
     }

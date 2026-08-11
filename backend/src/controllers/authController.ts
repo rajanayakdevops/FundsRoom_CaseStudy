@@ -31,8 +31,9 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
+  const cleanEmail = email ? email.toLowerCase().trim() : "";
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email: cleanEmail });
 
   if (!user || !user.isActive) {
     res.status(401).json({ message: "Invalid credentials" });

@@ -3,7 +3,7 @@ import { useNavigate, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../services/api";
-import { AuthResponse } from "../../types";
+import type { AuthResponse } from "../../types";
 import "./Login.css";
 
 interface LoginForm {
@@ -26,7 +26,7 @@ const Login = () => {
     setError("");
     try {
       const res = await api.post<AuthResponse>("/auth/login", data);
-      login(res.data, res.data.token);
+      login({ _id: res.data._id, name: res.data.name, email: res.data.email, role: res.data.role, isActive: true }, res.data.token);
       navigate("/");
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };

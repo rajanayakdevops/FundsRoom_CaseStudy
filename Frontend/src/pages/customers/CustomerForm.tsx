@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import api from "../../services/api";
-import { CustomerFormData } from "../../types";
+import type { CustomerFormData } from "../../types";
 import "./Customers.css";
 
 const CustomerForm = () => {

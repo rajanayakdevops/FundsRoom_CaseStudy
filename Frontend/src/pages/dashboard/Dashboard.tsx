@@ -45,7 +45,6 @@ const Dashboard = () => {
           confirmedChallans: confirmedChallans.data.total,
         });
       } catch {
-        // fail silently
       } finally {
         setLoading(false);
       }
