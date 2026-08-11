@@ -2,7 +2,31 @@
 
 A full-stack ERP/CRM application for managing customers, products, inventory, stock movements, and sales challans.
 
-The project has a React + TypeScript frontend and a Node.js + Express + MongoDB backend.
+The project has a React + TypeScript frontend and a Node.js + Express + MongoDB backend
+
+## Application Flow
+
+```mermaid
+flowchart LR
+    U[User] --> F[React Frontend]
+
+    F -->|REST API / Axios| B[Node.js + Express Backend]
+
+    B --> A[JWT Authentication]
+    B --> V[Validation & Authorization]
+
+    B --> C[Customer APIs]
+    B --> P[Product APIs]
+    B --> S[Stock APIs]
+    B --> CH[Challan APIs]
+
+    C --> DB[(MongoDB Atlas)]
+    P --> DB
+    S --> DB
+    CH --> DB
+
+    CH -->|Stock deduction| S
+```
 
 ## Features
 
@@ -73,29 +97,7 @@ The project has a React + TypeScript frontend and a Node.js + Express + MongoDB 
 * bcrypt
 * express-validator
 
-## Application Flow
 
-```mermaid
-flowchart LR
-    U[User] --> F[React Frontend]
-
-    F -->|REST API / Axios| B[Node.js + Express Backend]
-
-    B --> A[JWT Authentication]
-    B --> V[Validation & Authorization]
-
-    B --> C[Customer APIs]
-    B --> P[Product APIs]
-    B --> S[Stock APIs]
-    B --> CH[Challan APIs]
-
-    C --> DB[(MongoDB Atlas)]
-    P --> DB
-    S --> DB
-    CH --> DB
-
-    CH -->|Stock deduction| S
-```
 
 ## Project Structure
 
