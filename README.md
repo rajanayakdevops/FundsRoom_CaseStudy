@@ -1,24 +1,83 @@
-# Mini ERP + CRM Operations Portal
+# FundsRoom Case Study
 
-A full-stack ERP/CRM system for a wholesale/distribution company.
+A full-stack ERP/CRM application for managing customers, products, inventory, stock movements, and sales challans.
 
-## Tech Stack
-
-- Backend: Node.js, TypeScript, Express.js, MongoDB Atlas, JWT
-- Frontend: React, TypeScript
-- Database: MongoDB Atlas
+The project has a React + TypeScript frontend and a Node.js + Express + MongoDB backend.
 
 ## Features
 
-- Authentication with role-based access (Admin, Sales, Warehouse, Accounts)
-- Customer CRM with follow-up notes
-- Product and Inventory management with stock movement log
-- Sales Challan flow with stock deduction logic
+### Authentication
+
+* JWT based authentication
+* Role-based access
+* Protected routes
+* Password hashing using bcrypt
+* User logout and token handling
+
+### Customer Management
+
+* Add and edit customers
+* Customer list with pagination
+* Search customers
+* Filter by customer status and type
+* Customer details page
+* Follow-up notes
+
+### Product Management
+
+* Add and edit products
+* Product listing
+* Search and pagination
+* Product stock information
+* Product categories and status
+
+### Inventory / Stock
+
+* View stock movements
+* Record stock IN and OUT movements
+* Filter movements by type
+* Stock quantity tracking
+* Role-based access for adding stock movements
+
+### Sales Challans
+
+* Create sales challans
+* Add multiple products to a challan
+* Automatic quantity and subtotal calculation
+* Customer selection
+* Draft and confirmed challan status
+* Challan details and product snapshots
+* Stock deduction when applicable
+* Prevents stock from becoming negative
+
+## Tech Stack
+
+### Frontend
+
+* React
+* TypeScript
+* Vite
+* React Router
+* Axios
+* React Hook Form
+* CSS
+
+### Backend
+
+* Node.js
+* Express
+* TypeScript
+* MongoDB
+* Mongoose
+* JWT
+* bcrypt
+* express-validator
 
 ## Project Structure
 
-```
+```text
 FundsRoom_CaseStudy/
+│
 ├── backend/
 │   ├── src/
 │   │   ├── config/
@@ -26,109 +85,207 @@ FundsRoom_CaseStudy/
 │   │   ├── middleware/
 │   │   ├── models/
 │   │   ├── routes/
+│   │   ├── db.ts
 │   │   ├── app.ts
-│   │   └── server.ts
-│   ├── .env
-│   └── package.json
+│   │   ├── server.ts
+│   │   └── seed.ts
+│   │
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── .env
+│
 └── frontend/
+    ├── src/
+    │   ├── components/
+    │   │   ├── layout/
+    │   │   └── shared/
+    │   ├── context/
+    │   ├── hooks/
+    │   ├── pages/
+    │   │   ├── auth/
+    │   │   ├── dashboard/
+    │   │   ├── customers/
+    │   │   ├── products/
+    │   │   ├── stock/
+    │   │   └── challans/
+    │   ├── services/
+    │   ├── types/
+    │   ├── App.tsx
+    │   └── main.tsx
+    │
+    ├── package.json
+    └── .env
 ```
 
-## Prerequisites
+## Getting Started
 
-- Node.js v18+
-- MongoDB Atlas account
+Clone the repository:
 
-## Environment Variables
-
-Create a `.env` file inside the `backend/` folder:
-
+```bash
+git clone https://github.com/rajanayakdevops/FundsRoom_CaseStudy.git
+cd FundsRoom_CaseStudy
 ```
+
+### Backend
+
+Go to the backend directory:
+
+```bash
+cd backend
+npm install
+```
+
+Create a `.env` file:
+
+```env
 PORT=5000
-MONGODB_URI=mongodb+srv://root:<db_password>@smart-white-board.5bqfpna.mongodb.net/fundsroom?retryWrites=true&w=majority&appName=Smart-white-board
-JWT_SECRET=your_jwt_secret_key
-JWT_EXPIRES_IN=7d
-NODE_ENV=development
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+FRONTEND_URL=http://localhost:5173
 ```
 
-Replace `<db_password>` with your actual MongoDB Atlas password.
-
-## Installation
-
-### Backend
+Run the backend in development:
 
 ```bash
-cd backend
-npm install
+npm run dev
+```
+
+For production:
+
+```bash
+npm run build
+npm start
+```
+
+The backend will run on:
+
+```text
+http://localhost:5000
 ```
 
 ### Frontend
+
+Open another terminal:
 
 ```bash
 cd frontend
 npm install
 ```
 
-## Running the App
+Create `.env`:
 
-### Backend
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+Run the frontend:
 
 ```bash
-cd backend
 npm run dev
 ```
 
-Backend runs on: `http://localhost:5000`
+The frontend will normally be available at:
 
-### Frontend
-
-```bash
-cd frontend
-npm run dev
+```text
+http://localhost:5173
 ```
 
-Frontend runs on: `http://localhost:5173`
+## API
 
-## API Endpoints
+The backend exposes REST APIs for the main modules.
 
-### Auth
-| Method | Endpoint | Access |
-|--------|----------|--------|
-| POST | /api/auth/login | Public |
-| POST | /api/auth/register | Admin only |
-| GET | /api/auth/me | Protected |
+```text
+/api/auth
+/api/customers
+/api/products
+/api/stock
+/api/challans
+```
 
-### Customers
-| Method | Endpoint | Access |
-|--------|----------|--------|
-| GET | /api/customers | Admin, Sales, Accounts |
-| POST | /api/customers | Admin, Sales |
-| GET | /api/customers/:id | Admin, Sales, Accounts |
-| PUT | /api/customers/:id | Admin, Sales |
-| POST | /api/customers/:id/follow-up | Admin, Sales |
+Authentication protected endpoints use a JWT token:
 
-### Products
-| Method | Endpoint | Access |
-|--------|----------|--------|
-| GET | /api/products | All roles |
-| POST | /api/products | Admin, Warehouse |
-| GET | /api/products/:id | All roles |
-| PUT | /api/products/:id | Admin, Warehouse |
-| GET | /api/products/low-stock | Admin, Warehouse, Sales |
-
-### Stock
-| Method | Endpoint | Access |
-|--------|----------|--------|
-| GET | /api/stock | Admin, Warehouse, Accounts |
-| POST | /api/stock | Admin, Warehouse |
-
-### Challans
-| Method | Endpoint | Access |
-|--------|----------|--------|
-| GET | /api/challans | Admin, Sales, Accounts |
-| POST | /api/challans | Admin, Sales |
-| GET | /api/challans/:id | Admin, Sales, Accounts |
-| PATCH | /api/challans/:id/status | Admin, Sales |
+```http
+Authorization: Bearer <token>
+```
 
 ## Deployment
 
-Deployment is done on AWS. Refer to server setup documentation for environment configuration.
+The frontend and backend can be deployed separately.
+
+For example:
+
+```text
+React Frontend
+      |
+      | REST API
+      v
+Node / Express Backend
+      |
+      v
+MongoDB Atlas
+```
+
+When the frontend is deployed, update:
+
+```env
+VITE_API_URL=https://your-backend-url/api
+```
+
+The backend CORS configuration should allow the deployed frontend URL.
+
+## Roles
+
+The application supports different user roles with access based on the responsibilities of each role.
+
+Examples include:
+
+* Admin
+* Sales
+* Warehouse
+* Accounts
+
+The sidebar and protected actions are adjusted according to the logged-in user's role.
+
+## Database
+
+MongoDB is used for storing application data.
+
+Main collections/models include:
+
+* User
+* Customer
+* Product
+* StockMovement
+* Challan
+
+Challan records also keep product information needed for the transaction so that the sales record is not dependent only on the current product data.
+
+## Development Notes
+
+The frontend communicates with the backend only through REST APIs. The frontend does not directly connect to MongoDB.
+
+JWT is used for authentication, and the token is attached to API requests through the Axios interceptor.
+
+The backend handles validation, authorization, stock updates, and other business logic.
+
+## Build
+
+Frontend:
+
+```bash
+npm run build
+```
+
+Backend:
+
+```bash
+npm run build
+```
+
+The backend TypeScript files are compiled into the `dist` directory.
+
+## Author
+
+Raja Nayak
+
+GitHub: https://github.com/rajanayakdevops
